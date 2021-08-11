@@ -5,6 +5,9 @@ using System.Text;
 
 namespace Panosen.Reflection.Model
 {
+    /// <summary>
+    /// MethodNode
+    /// </summary>
     public class MethodNode : Node
     {
         /// <summary>

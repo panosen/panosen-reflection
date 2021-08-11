@@ -7,8 +7,14 @@ using System.Text;
 
 namespace Panosen.Reflection.Model
 {
+    /// <summary>
+    /// Node
+    /// </summary>
     public abstract class Node
     {
+        /// <summary>
+        /// Name
+        /// </summary>
         public string Name { get; set; }
 
         /// <summary>

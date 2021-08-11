@@ -11,112 +11,162 @@ using System.Xml.Serialization;
 
 namespace Panosen.Reflection
 {
-    public class XmlLoader
+    /// <summary>
+    /// XmlLoader
+    /// </summary>
+    public static class XmlLoader
     {
+        /// <summary>
+        /// LoadXml
+        /// </summary>
         public static XmlDoc LoadXml(string xmlPath)
         {
-            XmlDoc doc = null;
-
-            if (!string.IsNullOrEmpty(xmlPath))
+            if (string.IsNullOrEmpty(xmlPath))
             {
-                var element = XElement.Load(xmlPath);
-
-                doc = LoadXml(element);
+                return null;
             }
 
-            return doc;
+            var element = XElement.Load(xmlPath);
+
+            return LoadXml(element);
         }
 
-        static XmlDoc LoadXml(XElement document)
+        private static XmlDoc LoadXml(XElement document)
         {
+            if (document == null)
+            {
+                return null;
+            }
+
             XmlDoc returnValue = new XmlDoc();
 
-            if (document != null)
+            var assemblyElement = document.Element("assembly");
+            if (assemblyElement != null)
             {
-                var assemblyElement = document.Element("assembly");
-                if (assemblyElement != null)
+                returnValue.Assembly = new XmlAssembly();
+                var nameElement = assemblyElement.Element("name");
+                if (nameElement != null)
                 {
-                    returnValue.Assembly = new XmlAssembly();
-                    var nameElement = assemblyElement.Element("name");
-                    if (nameElement != null)
-                    {
-                        returnValue.Assembly.Name = nameElement.Value;
-                    }
+                    returnValue.Assembly.Name = nameElement.Value;
                 }
+            }
 
-                var members = document.Element("members");
-                if (members != null)
-                {
-                    returnValue.Members = ToMembers(members);
-                }
+            var members = document.Element("members");
+            if (members != null)
+            {
+                returnValue.Members = ToXmlMembers(members);
             }
 
             return returnValue;
         }
 
-        private static List<XmlMember> ToMembers(XElement members)
+        private static List<XmlMember> ToXmlMembers(XElement members)
         {
             var xmlMembers = new List<XmlMember>();
 
             var items = members.Elements();
             foreach (var member in items)
             {
-                XmlMember xmlMember = new XmlMember();
-
-                //Name
-                var nameAttribute = member.Attribute("name");
-                if (nameAttribute != null)
-                {
-                    xmlMember.Name = nameAttribute.Value;
-                }
-
-                //Summary
-                var summaryElement = member.Element("summary");
-                if (summaryElement != null)
-                {
-                    if (!string.IsNullOrEmpty(summaryElement.Value))
-                    {
-                        xmlMember.Summary = summaryElement.Value.Trim();
-                    }
-                }
-
-                var paramElements = member.Elements("param");
-                if (paramElements != null)
-                {
-                    var xmlMemberParamList = new List<XmlMemberParam>();
-                    foreach (var paramElement in paramElements)
-                    {
-                        var paramNameAttribute = paramElement.Attribute("name");
-                        var paramValueElement = paramElement.Value;
-                        if (paramNameAttribute != null && !string.IsNullOrEmpty(paramNameAttribute.Value) && !string.IsNullOrEmpty(paramValueElement))
-                        {
-                            var xmlMemberParam = new XmlMemberParam();
-
-                            xmlMemberParam.Name = paramNameAttribute.Value;
-                            xmlMemberParam.Value = paramValueElement;
-
-                            xmlMemberParamList.Add(xmlMemberParam);
-                        }
-                    }
-                    if (xmlMemberParamList.Count > 0)
-                    {
-                        xmlMember.Param = xmlMemberParamList.ToArray();
-                    }
-                }
-
-                var returns = member.Element("returns");
-                if (returns != null)
-                {
-                    if (!string.IsNullOrEmpty(returns.Value))
-                    {
-                        xmlMember.Returns = returns.Value;
-                    }
-                }
+                XmlMember xmlMember = ToXmlMember(member);
 
                 xmlMembers.Add(xmlMember);
             }
 
             return xmlMembers;
+        }
+
+        private static XmlMember ToXmlMember(XElement member)
+        {
+            XmlMember xmlMember = new XmlMember();
+
+            //Name
+            xmlMember.Name = ToName(member);
+
+            //Summary
+            xmlMember.Summary = ToSummary(member);
+
+            xmlMember.Param = ToXmlMemberParams(member);
+
+            xmlMember.Returns = ToReturns(member);
+
+            return xmlMember;
+        }
+
+        private static string ToName(XElement member)
+        {
+            var nameAttribute = member.Attribute("name");
+            if (nameAttribute == null)
+            {
+                return null;
+            }
+
+            return nameAttribute.Value;
+        }
+
+        private static string ToSummary(XElement member)
+        {
+            var summaryElement = member.Element("summary");
+            if (summaryElement == null)
+            {
+                return null;
+            }
+
+            if (string.IsNullOrEmpty(summaryElement.Value))
+            {
+                return null;
+            }
+
+            return summaryElement.Value.Trim();
+        }
+
+        private static List<XmlMemberParam> ToXmlMemberParams(XElement member)
+        {
+            var paramElements = member.Elements("param");
+            if (paramElements == null)
+            {
+                return null;
+            }
+
+            var xmlMemberParamList = new List<XmlMemberParam>();
+            foreach (var paramElement in paramElements)
+            {
+                var paramNameAttribute = paramElement.Attribute("name");
+                var paramValueElement = paramElement.Value;
+                if (paramNameAttribute == null || string.IsNullOrEmpty(paramNameAttribute.Value) || string.IsNullOrEmpty(paramValueElement))
+                {
+                    continue;
+                }
+
+                var xmlMemberParam = new XmlMemberParam();
+
+                xmlMemberParam.Name = paramNameAttribute.Value;
+                xmlMemberParam.Value = paramValueElement;
+
+                xmlMemberParamList.Add(xmlMemberParam);
+            }
+
+            if (xmlMemberParamList.Count == 0)
+            {
+                return null;
+            }
+
+            return xmlMemberParamList;
+        }
+
+        private static string ToReturns(XElement member)
+        {
+            var returns = member.Element("returns");
+            if (returns == null)
+            {
+                return null;
+            }
+
+            if (string.IsNullOrEmpty(returns.Value))
+            {
+                return null;
+            }
+
+            return returns.Value;
         }
     }
 }
