@@ -5,8 +5,14 @@ using System.Text;
 
 namespace Panosen.Reflection.Model
 {
-    public class MainModel
+    /// <summary>
+    /// AssemblyModel
+    /// </summary>
+    public class AssemblyModel
     {
+        /// <summary>
+        /// ClassNodeList
+        /// </summary>
         public List<ClassNode> ClassNodeList { get; set; }
     }
 }

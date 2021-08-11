@@ -17,12 +17,13 @@ namespace Panosen.Reflection.MSTest
         {
             Assembly assembly = PrepareAssembly();
 
-            var classList = AssemblyLoader.LoadClassList(assembly);
+            var assemblyModel = AssemblyLoader.LoadAssembly(assembly);
 
-            Assert.IsNotNull(classList);
-            Assert.AreEqual(1, classList.Count);
+            Assert.IsNotNull(assemblyModel);
+            Assert.IsNotNull(assemblyModel.ClassNodeList);
+            Assert.AreEqual(1, assemblyModel.ClassNodeList.Count);
 
-            var student = classList[0];
+            var student = assemblyModel.ClassNodeList[0];
             Assert.IsNotNull(student);
 
             Assert.IsNotNull(student.PropertyNodeList);
