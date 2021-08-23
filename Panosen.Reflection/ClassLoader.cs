@@ -27,6 +27,7 @@ namespace Panosen.Reflection
             classNode.FullName = type.FullName;
             classNode.Namespace = type.Namespace;
             classNode.IsAbstract = type.IsAbstract;
+            classNode.Attributes = type.GetCustomAttributes().ToList();
 
             var classMember = xmlMembers != null ? xmlMembers.FirstOrDefault(v => string.Format("T:{0}", type.FullName).Equals(v.Name)) : null;
             if (classMember != null)

@@ -49,5 +49,10 @@ namespace Panosen.Reflection.Model
         /// 方法
         /// </summary>
         public List<MethodNode> MethodNodeList { get; private set; } = new List<MethodNode>();
+
+        /// <summary>
+        /// 特性
+        /// </summary>
+        public List<Attribute> Attributes { get; set; }
     }
 }
