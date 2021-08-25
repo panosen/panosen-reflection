@@ -23,6 +23,7 @@ namespace Panosen.Reflection
         {
             var classNode = new ClassNode();
 
+            classNode.ClassType = type;
             classNode.Name = type.Name;
             classNode.FullName = type.FullName;
             classNode.Namespace = type.Namespace;

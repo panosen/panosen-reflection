@@ -11,6 +11,11 @@ namespace Panosen.Reflection.Model
     public class ClassNode : Node
     {
         /// <summary>
+        /// 实际类型
+        /// </summary>
+        public Type ClassType { get; set; }
+
+        /// <summary>
         /// 命名空间
         /// </summary>
         public string Namespace { get; set; }
