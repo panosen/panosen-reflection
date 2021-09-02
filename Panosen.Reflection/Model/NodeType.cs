@@ -13,36 +13,31 @@ namespace Panosen.Reflection.Model
         /// <summary>
         /// None
         /// </summary>
-        None = 1,
+        None,
 
         /// <summary>
         /// Class
         /// </summary>
-        Class = 2,
+        Class,
 
         /// <summary>
         /// Enum
         /// </summary>
-        Enum = 3,
+        Enum,
 
         /// <summary>
         /// Property
         /// </summary>
-        Property = 4,
+        Property,
 
         /// <summary>
         /// Method
         /// </summary>
-        Method = 5,
-
-        /// <summary>
-        /// Namespace
-        /// </summary>
-        Namespace = 7,
+        Method,
 
         /// <summary>
         /// Root
         /// </summary>
-        Root = 8
+        Interface
     }
 }

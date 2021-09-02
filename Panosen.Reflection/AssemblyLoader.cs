@@ -27,6 +27,8 @@ namespace Panosen.Reflection
 
             mainModel.ClassNodeList = LoadClassList(types, xmlDoc?.Members);
 
+            mainModel.InterfaceNodeList = LoadInterfaceList(types, xmlDoc?.Members);
+
             return mainModel;
         }
 
@@ -36,12 +38,28 @@ namespace Panosen.Reflection
 
             foreach (var type in types)
             {
-                ClassNode classNode = ClassLoader.LoadClass(type, xmlMembers);
-
-                classNodeList.Add(classNode);
+                if (type.IsClass)
+                {
+                    classNodeList.Add(ClassLoader.LoadClass(type, xmlMembers));
+                }
             }
 
             return classNodeList;
+        }
+
+        private static List<InterfaceNode> LoadInterfaceList(Type[] types, List<XmlMember> xmlMembers)
+        {
+            List<InterfaceNode> interfaceNodeList = new List<InterfaceNode>();
+
+            foreach (var type in types)
+            {
+                if (type.IsInterface)
+                {
+                    interfaceNodeList.Add(InterfaceLoader.LoadInterface(type, xmlMembers));
+                }
+            }
+
+            return interfaceNodeList;
         }
     }
 }

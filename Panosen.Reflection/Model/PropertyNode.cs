@@ -11,6 +11,11 @@ namespace Panosen.Reflection.Model
     public class PropertyNode : Node
     {
         /// <summary>
+        /// Property
+        /// </summary>
+        public override NodeType NodeType => NodeType.Property;
+
+        /// <summary>
         /// 类型
         /// </summary>
         public Type PropertyType { get; set; }

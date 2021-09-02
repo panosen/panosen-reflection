@@ -14,44 +14,32 @@ namespace Panosen.Reflection
     /// <summary>
     /// LoadClass
     /// </summary>
-    public static class ClassLoader
+    public static class InterfaceLoader
     {
         /// <summary>
         /// LoadClass
         /// </summary>
-        public static ClassNode LoadClass(Type type, List<XmlMember> xmlMembers = null)
+        public static InterfaceNode LoadInterface(Type type, List<XmlMember> xmlMembers = null)
         {
-            var classNode = new ClassNode();
+            var interfaceNode = new InterfaceNode();
 
-            classNode.ClassType = type;
-            classNode.Name = type.Name;
-            classNode.FullName = type.FullName;
-            classNode.Namespace = type.Namespace;
-            classNode.IsAbstract = type.IsAbstract;
-            classNode.Attributes = type.GetCustomAttributes().ToList();
+            interfaceNode.InterfaceType = type;
+            interfaceNode.Name = type.Name;
+            interfaceNode.FullName = type.FullName;
+            interfaceNode.Namespace = type.Namespace;
+            interfaceNode.Attributes = type.GetCustomAttributes().ToList();
 
             var classMember = xmlMembers != null ? xmlMembers.FirstOrDefault(v => string.Format("T:{0}", type.FullName).Equals(v.Name)) : null;
             if (classMember != null)
             {
-                classNode.Summary = classMember.Summary;
+                interfaceNode.Summary = classMember.Summary;
             }
 
             //BaseType
             if (type.BaseType != null && type.BaseType != typeof(object))
             {
-                classNode.BaseTypeName = type.BaseType.Name;
-                classNode.BaseTypeFullName = type.BaseType.FullName;
-            }
-
-            //Properties
-            var properties = type.GetProperties(BindingFlags.Public | BindingFlags.Instance | BindingFlags.DeclaredOnly);
-            var propertyNodes = ToPropertyNodeList(properties, xmlMembers);
-            if (propertyNodes != null && propertyNodes.Count > 0)
-            {
-                foreach (var propertyNode in propertyNodes)
-                {
-                    classNode.AddProperty(propertyNode);
-                }
+                interfaceNode.BaseTypeName = type.BaseType.Name;
+                interfaceNode.BaseTypeFullName = type.BaseType.FullName;
             }
 
             //Methods
@@ -66,47 +54,11 @@ namespace Panosen.Reflection
             {
                 foreach (var methodNode in methodNodes)
                 {
-                    classNode.AddMethod(methodNode);
+                    interfaceNode.AddMethod(methodNode);
                 }
             }
 
-            return classNode;
-        }
-
-        private static List<PropertyNode> ToPropertyNodeList(PropertyInfo[] properties, List<XmlMember> xmlMembers)
-        {
-            List<PropertyNode> returnValue = new List<PropertyNode>();
-
-            if (properties == null || properties.Length == 0)
-            {
-                return returnValue;
-            }
-
-            foreach (var property in properties)
-            {
-                PropertyNode propertyNode = ToPropertyNode(property, xmlMembers);
-
-                returnValue.Add(propertyNode);
-            }
-
-            return returnValue;
-        }
-
-        private static PropertyNode ToPropertyNode(PropertyInfo property, List<XmlMember> xmlMembers)
-        {
-            var propertyNode = new PropertyNode();
-
-            propertyNode.Name = property.Name;
-            propertyNode.PropertyType = property.PropertyType;
-            propertyNode.Attributes = property.GetCustomAttributes().ToList();
-
-            var propertyMember = xmlMembers != null ? xmlMembers.FirstOrDefault(v => string.Format("P:{0}.{1}", property.DeclaringType.FullName, property.Name).Equals(v.Name)) : null;
-            if (propertyMember != null)
-            {
-                propertyNode.Summary = propertyMember.Summary;
-            }
-
-            return propertyNode;
+            return interfaceNode;
         }
 
         private static List<MethodNode> LoadMethods(MethodInfo[] methods, List<XmlMember> xmlMembers)

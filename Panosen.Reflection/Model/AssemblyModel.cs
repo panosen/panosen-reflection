@@ -14,5 +14,10 @@ namespace Panosen.Reflection.Model
         /// ClassNodeList
         /// </summary>
         public List<ClassNode> ClassNodeList { get; set; }
+
+        /// <summary>
+        /// InterfaceNodeList
+        /// </summary>
+        public List<InterfaceNode> InterfaceNodeList { get; set; }
     }
 }

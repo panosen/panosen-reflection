@@ -11,7 +11,12 @@ namespace Panosen.Reflection.Model
     public class MethodNode : Node
     {
         /// <summary>
-        /// 【Java】方法返回类型
+        /// Method
+        /// </summary>
+        public override NodeType NodeType => NodeType.Method;
+
+        /// <summary>
+        /// 方法返回类型
         /// </summary>
         public Type ReturnType { get; set; }
 

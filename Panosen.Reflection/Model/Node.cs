@@ -21,5 +21,10 @@ namespace Panosen.Reflection.Model
         /// 【XML注释】摘要
         /// </summary>
         public string Summary { get; internal set; }
+
+        /// <summary>
+        /// 节点类型
+        /// </summary>
+        public abstract NodeType NodeType { get; }
     }
 }

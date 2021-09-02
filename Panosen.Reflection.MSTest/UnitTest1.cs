@@ -20,19 +20,47 @@ namespace Panosen.Reflection.MSTest
             var assemblyModel = AssemblyLoader.LoadAssembly(assembly);
 
             Assert.IsNotNull(assemblyModel);
+
             Assert.IsNotNull(assemblyModel.ClassNodeList);
             Assert.AreEqual(1, assemblyModel.ClassNodeList.Count);
 
-            var student = assemblyModel.ClassNodeList[0];
-            Assert.IsNotNull(student);
-
-            Assert.IsNotNull(student.PropertyNodeList);
-            Assert.AreEqual(1, student.PropertyNodeList.Count);
+            Assert.IsNotNull(assemblyModel.InterfaceNodeList);
+            Assert.AreEqual(1, assemblyModel.InterfaceNodeList.Count);
 
             {
-                var name = student.PropertyNodeList[0];
-                Assert.AreEqual("Name", name.Name);
-                Assert.AreEqual("System.String", name.PropertyType.FullName);
+                var student = assemblyModel.ClassNodeList[0];
+                Assert.IsNotNull(student);
+
+                Assert.IsNotNull(student.PropertyNodeList);
+                Assert.AreEqual(1, student.PropertyNodeList.Count);
+
+                {
+                    var name = student.PropertyNodeList[0];
+                    Assert.AreEqual("Name", name.Name);
+                    Assert.AreEqual("System.String", name.PropertyType.FullName);
+                }
+            }
+
+            {
+                var iSample = assemblyModel.InterfaceNodeList[0];
+                Assert.IsNotNull(iSample);
+
+                Assert.IsNotNull(iSample.MethodNodeList);
+                Assert.AreEqual(1, iSample.MethodNodeList.Count);
+
+                {
+                    var sayHi = iSample.MethodNodeList[0];
+                    Assert.IsNotNull(sayHi);
+
+                    Assert.AreEqual("SayHi", sayHi.Name);
+
+                    Assert.AreEqual(typeof(string), sayHi.ReturnType);
+
+                    Assert.IsNotNull(sayHi.Parameters);
+                    Assert.AreEqual(1, sayHi.Parameters.Count);
+                    Assert.AreEqual(typeof(string), sayHi.Parameters[0].ParameterType);
+                    Assert.AreEqual("name", sayHi.Parameters[0].Name);
+                }
             }
         }
 
@@ -44,6 +72,11 @@ namespace Sample
     public class Student
     {
         public string Name { get; set; }
+    }
+
+    public interface ISample
+    {
+        string SayHi(string name);
     }
 }
 ";

@@ -11,6 +11,11 @@ namespace Panosen.Reflection.Model
     public class ClassNode : Node
     {
         /// <summary>
+        /// Class
+        /// </summary>
+        public override NodeType NodeType => NodeType.Class;
+
+        /// <summary>
         /// 实际类型
         /// </summary>
         public Type ClassType { get; set; }
@@ -41,23 +46,69 @@ namespace Panosen.Reflection.Model
         public string BaseTypeFullName { get; set; }
 
         /// <summary>
-        /// 服务原始命名空间
-        /// </summary>
-        public string OriginalServiceNamespace { get; set; }
-
-        /// <summary>
         /// 属性
         /// </summary>
-        public List<PropertyNode> PropertyNodeList { get; private set; } = new List<PropertyNode>();
+        public List<PropertyNode> PropertyNodeList { get; set; }
 
         /// <summary>
         /// 方法
         /// </summary>
-        public List<MethodNode> MethodNodeList { get; private set; } = new List<MethodNode>();
+        public List<MethodNode> MethodNodeList { get; set; }
 
         /// <summary>
         /// 特性
         /// </summary>
         public List<Attribute> Attributes { get; set; }
+    }
+
+    /// <summary>
+    /// ClassNodeExtension
+    /// </summary>
+    public static class ClassNodeExtension
+    {
+        /// <summary>
+        /// AddProperty
+        /// </summary>
+        public static ClassNode AddProperty(this ClassNode classNode, PropertyNode propertyNode)
+        {
+            if (classNode.PropertyNodeList == null)
+            {
+                classNode.PropertyNodeList = new List<PropertyNode>();
+            }
+
+            classNode.PropertyNodeList.Add(propertyNode);
+
+            return classNode;
+        }
+
+        /// <summary>
+        /// AddMethod
+        /// </summary>
+        public static ClassNode AddMethod(this ClassNode classNode, MethodNode methodNode)
+        {
+            if (classNode.MethodNodeList == null)
+            {
+                classNode.MethodNodeList = new List<MethodNode>();
+            }
+
+            classNode.MethodNodeList.Add(methodNode);
+
+            return classNode;
+        }
+
+        /// <summary>
+        /// AddAttribute
+        /// </summary>
+        public static ClassNode AddAttribute(this ClassNode classNode, Attribute attribute)
+        {
+            if (classNode.Attributes == null)
+            {
+                classNode.Attributes = new List<Attribute>();
+            }
+
+            classNode.Attributes.Add(attribute);
+
+            return classNode;
+        }
     }
 }
