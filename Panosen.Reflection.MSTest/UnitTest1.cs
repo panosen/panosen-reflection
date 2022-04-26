@@ -62,6 +62,13 @@ namespace Panosen.Reflection.MSTest
                     Assert.AreEqual("name", sayHi.Parameters[0].Name);
                 }
             }
+
+            {
+                var status = assemblyModel.EnumNodeList[0];
+                Assert.IsNotNull(status);
+
+                Assert.AreEqual("Status", status.Name);
+            }
         }
 
         private Assembly PrepareAssembly()
@@ -77,6 +84,15 @@ namespace Sample
     public interface ISample
     {
         string SayHi(string name);
+    }
+
+    public enum Status
+    {
+        None = 0,
+
+        Enabled = 1,
+
+        Disabled = 2
     }
 }
 ";

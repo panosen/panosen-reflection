@@ -29,6 +29,8 @@ namespace Panosen.Reflection
 
             mainModel.InterfaceNodeList = LoadInterfaceList(types, xmlDoc?.Members);
 
+            mainModel.EnumNodeList = LoadEnumList(types, xmlDoc?.Members);
+
             return mainModel;
         }
 
@@ -60,6 +62,21 @@ namespace Panosen.Reflection
             }
 
             return interfaceNodeList;
+        }
+
+        private static List<EnumNode> LoadEnumList(Type[] types, List<XmlMember> xmlMembers)
+        {
+            List<EnumNode> enumNodeList = new List<EnumNode>();
+
+            foreach (var type in types)
+            {
+                if (type.IsEnum)
+                {
+                    enumNodeList.Add(EnumLoader.LoadEnum(type, xmlMembers));
+                }
+            }
+
+            return enumNodeList;
         }
     }
 }
