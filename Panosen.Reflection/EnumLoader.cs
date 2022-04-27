@@ -35,8 +35,7 @@ namespace Panosen.Reflection
 
                 var fieldNode = new FieldNode();
                 fieldNode.Name = declaredField.Name;
-                fieldNode.FieldType = declaredField.FieldType;
-                //fieldNode.FieldValue=declaredField.
+                fieldNode.FieldType = declaredFields[0].FieldType;
 
                 if (i>0)
                 {
