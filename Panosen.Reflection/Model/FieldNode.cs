@@ -7,23 +7,23 @@ using System.Threading.Tasks;
 namespace Panosen.Reflection.Model
 {
     /// <summary>
-    /// 枚举
+    /// 字段
     /// </summary>
-    public class EnumNode : Node
+    public class FieldNode : Node
     {
         /// <summary>
-        /// Enum
+        /// Field
         /// </summary>
-        public override NodeType NodeType => NodeType.Enum;
+        public override NodeType NodeType => NodeType.Field;
 
         /// <summary>
-        /// 枚举值
+        /// 类型
         /// </summary>
-        public List<FieldNode> FieldNodeList { get; set; }
+        public Type FieldType { get; set; }
 
         /// <summary>
-        /// 命名空间
+        /// 值
         /// </summary>
-        public string Namespace { get; set; }
+        public int FieldValue { get; set; }
     }
 }

@@ -38,6 +38,11 @@ namespace Panosen.Reflection.Model
         /// <summary>
         /// Root
         /// </summary>
-        Interface
+        Interface,
+
+        /// <summary>
+        /// Field
+        /// </summary>
+        Field
     }
 }

@@ -68,6 +68,22 @@ namespace Panosen.Reflection.MSTest
                 Assert.IsNotNull(status);
 
                 Assert.AreEqual("Status", status.Name);
+
+                Assert.IsNotNull(status.FieldNodeList);
+                Assert.AreEqual(4, status.FieldNodeList.Count);
+
+                {
+                    Assert.AreEqual(typeof(int), status.FieldNodeList[1].FieldType);
+                    Assert.AreEqual(1, status.FieldNodeList[1].FieldValue);
+                }
+                {
+                    Assert.AreEqual(typeof(int), status.FieldNodeList[2].FieldType);
+                    Assert.AreEqual(3, status.FieldNodeList[2].FieldValue);
+                }
+                {
+                    Assert.AreEqual(typeof(int), status.FieldNodeList[3].FieldType);
+                    Assert.AreEqual(7, status.FieldNodeList[3].FieldValue);
+                }
             }
         }
 
@@ -88,11 +104,11 @@ namespace Sample
 
     public enum Status
     {
-        None = 0,
+        None = 1,
 
-        Enabled = 1,
+        Enabled = 3,
 
-        Disabled = 2
+        Disabled = 7
     }
 }
 ";
