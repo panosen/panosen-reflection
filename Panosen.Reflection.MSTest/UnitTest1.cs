@@ -39,6 +39,16 @@ namespace Panosen.Reflection.MSTest
                     Assert.AreEqual("Name", name.Name);
                     Assert.AreEqual("System.String", name.PropertyType.FullName);
                 }
+
+                Assert.IsNotNull(student.MethodNodeList);
+                Assert.AreEqual(1, student.MethodNodeList.Count);
+
+                {
+                    var sayhi = student.MethodNodeList[0];
+                    Assert.AreEqual("SayHi", sayhi.Name);
+                    Assert.AreEqual("System.Int32", sayhi.ReturnType.FullName);
+                    Assert.IsTrue((sayhi.Attributes & MethodAttributes.Public) == MethodAttributes.Public);
+                }
             }
 
             {
@@ -95,6 +105,11 @@ namespace Sample
     public class Student
     {
         public string Name { get; set; }
+
+        public int SayHi()
+        {
+            return 1;
+        }
     }
 
     public interface ISample

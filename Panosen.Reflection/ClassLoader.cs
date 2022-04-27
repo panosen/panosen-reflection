@@ -126,6 +126,7 @@ namespace Panosen.Reflection
 
                 {
                     methodModel.ReturnType = method.ReturnType;
+                    methodModel.Attributes = method.Attributes;
                     var parameters = method.GetParameters();
                     if (parameters.Length > 0)
                     {

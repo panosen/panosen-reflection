@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 
 namespace Panosen.Reflection.Model
@@ -14,6 +15,11 @@ namespace Panosen.Reflection.Model
         /// Method
         /// </summary>
         public override NodeType NodeType => NodeType.Method;
+
+        /// <summary>
+        /// MethodAttributes
+        /// </summary>
+        public MethodAttributes Attributes { get; set; }
 
         /// <summary>
         /// 方法返回类型
