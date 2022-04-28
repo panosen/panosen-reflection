@@ -21,6 +21,11 @@ namespace Panosen.Reflection.Model
         public Type ClassType { get; set; }
 
         /// <summary>
+        /// 基类名称
+        /// </summary>
+        public Type BaseType { get; set; }
+
+        /// <summary>
         /// 命名空间
         /// </summary>
         public string Namespace { get; set; }
@@ -34,16 +39,6 @@ namespace Panosen.Reflection.Model
         /// 是否是抽象类
         /// </summary>
         public bool IsAbstract { get; set; }
-
-        /// <summary>
-        /// 基类名称
-        /// </summary>
-        public string BaseTypeName { get; set; }
-
-        /// <summary>
-        /// 基类全名称
-        /// </summary>
-        public string BaseTypeFullName { get; set; }
 
         /// <summary>
         /// 属性

@@ -39,8 +39,7 @@ namespace Panosen.Reflection
             //BaseType
             if (type.BaseType != null && type.BaseType != typeof(object))
             {
-                classNode.BaseTypeName = type.BaseType.Name;
-                classNode.BaseTypeFullName = type.BaseType.FullName;
+                classNode.BaseType = type.BaseType;
             }
 
             //Properties
