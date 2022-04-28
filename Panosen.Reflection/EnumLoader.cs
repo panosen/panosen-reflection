@@ -37,6 +37,12 @@ namespace Panosen.Reflection
                 fieldNode.Name = declaredField.Name;
                 fieldNode.FieldType = declaredFields[0].FieldType;
 
+                var fieldMember = xmlMembers != null ? xmlMembers.FirstOrDefault(v => string.Format("F:{0}.{1}", declaredField.DeclaringType.FullName, declaredField.Name).Equals(v.Name)) : null;
+                if (fieldMember != null)
+                {
+                    fieldNode.Summary = fieldMember.Summary;
+                }
+
                 if (i>0)
                 {
                     fieldNode.FieldValue = (int)declaredField.GetValue(declaredField);
