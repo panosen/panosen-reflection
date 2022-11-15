@@ -22,13 +22,13 @@ namespace Panosen.Reflection.MSTest
             Assert.IsNotNull(assemblyModel);
 
             Assert.IsNotNull(assemblyModel.ClassNodeList);
-            Assert.AreEqual(1, assemblyModel.ClassNodeList.Count);
+            Assert.AreNotEqual(0, assemblyModel.ClassNodeList.Count);
 
             Assert.IsNotNull(assemblyModel.InterfaceNodeList);
             Assert.AreEqual(1, assemblyModel.InterfaceNodeList.Count);
 
             {
-                var student = assemblyModel.ClassNodeList[0];
+                var student = assemblyModel.ClassNodeList.FirstOrDefault(v => v.FullName == "Sample.Student");
                 Assert.IsNotNull(student);
 
                 Assert.IsNotNull(student.PropertyNodeList);
